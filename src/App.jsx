@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef } from "react";
 
 export default function App() {
   const [accepted, setAccepted] = useState(false);
@@ -7,8 +7,8 @@ export default function App() {
   const audioRef = useRef(null);
 
   const moveNoButton = () => {
-    const randomX = Math.floor(Math.random() * 300 - 150);
-    const randomY = Math.floor(Math.random() * 300 - 150);
+    const randomX = Math.floor(Math.random() * 200 - 100);
+    const randomY = Math.floor(Math.random() * 200 - 100);
     setNoPosition({ x: randomX, y: randomY });
   };
 
@@ -52,8 +52,13 @@ export default function App() {
             justifyContent: "center",
             alignItems: "center",
             color: "#ff2e2e",
+            position: "relative", // required for snow layer
+            overflow: "hidden",
           }}
         >
+          {/* Snow Layer */}
+          <div className="snow"></div>
+
           <h1>
             {accepted
               ? "You Escaped the Upside Down ❤️"
@@ -85,7 +90,8 @@ export default function App() {
                   border: "1px solid red",
                   borderRadius: "8px",
                   cursor: "pointer",
-                  transform: `translate(${noPosition.x}px, ${noPosition.y}px)`
+                  transform: `translate(${noPosition.x}px, ${noPosition.y}px)`,
+                  transition: "transform 0.2s ease",
                 }}
               >
                 No
@@ -96,6 +102,31 @@ export default function App() {
               Looks like we’re binge-watching forever together in Hawkins.
             </p>
           )}
+
+          {/* Snow CSS */}
+          <style>{`
+            .snow {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              pointer-events: none;
+              background-image:
+                radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+                radial-gradient(2px 2px at 40px 70px, #ffffff, transparent),
+                radial-gradient(2px 2px at 90px 40px, #ffffff, transparent),
+                radial-gradient(2px 2px at 160px 120px, #ffffff, transparent),
+                radial-gradient(2px 2px at 200px 200px, #ffffff, transparent);
+              background-repeat: repeat;
+              background-size: 250px 250px;
+              animation: snowMove 15s linear infinite;
+              opacity: 0.2;
+            }
+
+            @keyframes snowMove {
+              from { transform: translateY(-250px); }
+              to { transform: translateY(250px); }
+            }
+          `}</style>
         </div>
       )}
     </>
