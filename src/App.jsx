@@ -59,4 +59,117 @@ export default function App() {
             background:
               "radial-gradient(circle at center, #2b0000 0%, #000000 70%)",
             display: "flex",
-            flexDire
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "#ff2e2e",
+            position: "relative",
+            overflow: "hidden",
+          }}
+        >
+          {/* Snow Layer */}
+          <div className="snow"></div>
+
+          {/* Horror Flash Overlay */}
+          {scare && <div className="flash"></div>}
+
+          <h1>
+            {accepted
+              ? "You Escaped the Upside Down ❤️"
+              : "Will You Be My Valentine?"}
+          </h1>
+
+          {!accepted ? (
+            <div style={{ marginTop: "30px", display: "flex", gap: "20px" }}>
+              <button
+                onClick={handleYes}
+                style={{
+                  padding: "10px 20px",
+                  background: "darkred",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                }}
+              >
+                Yes ❤️
+              </button>
+
+              <button
+                onMouseEnter={moveNoButton}
+                style={{
+                  padding: "10px 20px",
+                  background: "black",
+                  color: "red",
+                  border: "1px solid red",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                  transform: `translate(${noPosition.x}px, ${noPosition.y}px)`,
+                  transition: "transform 0.2s ease",
+                }}
+              >
+                No
+              </button>
+            </div>
+          ) : (
+            <p style={{ marginTop: "20px" }}>
+              Looks like we’re binge-watching forever together in Hawkins.
+            </p>
+          )}
+
+          <style>{`
+            .snow {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              pointer-events: none;
+              background-image:
+                radial-gradient(2px 2px at 20px 30px, #ffffff, transparent),
+                radial-gradient(2px 2px at 40px 70px, #ffffff, transparent),
+                radial-gradient(2px 2px at 90px 40px, #ffffff, transparent),
+                radial-gradient(2px 2px at 160px 120px, #ffffff, transparent),
+                radial-gradient(2px 2px at 200px 200px, #ffffff, transparent);
+              background-repeat: repeat;
+              background-size: 250px 250px;
+              animation: snowMove 15s linear infinite;
+              opacity: 0.2;
+            }
+
+            @keyframes snowMove {
+              from { transform: translateY(-250px); }
+              to { transform: translateY(250px); }
+            }
+
+            .flash {
+              position: absolute;
+              width: 100%;
+              height: 100%;
+              background: radial-gradient(circle, rgba(255,0,0,0.6) 0%, black 70%);
+              animation: flashEffect 0.3s linear infinite;
+              pointer-events: none;
+              z-index: 5;
+            }
+
+            @keyframes flashEffect {
+              0% { opacity: 0.3; }
+              50% { opacity: 0.8; }
+              100% { opacity: 0.3; }
+            }
+
+            .shake {
+              animation: screenShake 0.2s linear infinite;
+            }
+
+            @keyframes screenShake {
+              0% { transform: translate(0px, 0px); }
+              25% { transform: translate(-5px, 5px); }
+              50% { transform: translate(5px, -5px); }
+              75% { transform: translate(-5px, -5px); }
+              100% { transform: translate(0px, 0px); }
+            }
+          `}</style>
+        </div>
+      )}
+    </>
+  );
+}
