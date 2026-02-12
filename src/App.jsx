@@ -51,7 +51,7 @@ const handleEnter = () => {
     </div>
   ) : (
     <div className="container">
-      <div className="flicker-overlay"></div>
+      {<div className="flicker-overlay"></div>
 
       <h1 className="title">
         {accepted
@@ -160,7 +160,7 @@ const handleEnter = () => {
           50% { opacity: 0.1; }
           100% { opacity: 0.05; }
         }
-      `}</style>
+      `}</style>}
     </div>
   </>
   );
