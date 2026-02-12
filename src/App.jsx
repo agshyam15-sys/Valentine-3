@@ -4,7 +4,7 @@ export default function App() {
   const [accepted, setAccepted] = useState(false);
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
   const [entered, setEntered] = useState(false);
-  const audioRef = useRef(null);
+  const audioRef = useRef(null); // DECLARED ONLY ONCE
 
   const moveNoButton = () => {
     const randomX = Math.floor(Math.random() * 300 - 150);
