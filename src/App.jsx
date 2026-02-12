@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 
 export default function App() {
   const [accepted, setAccepted] = useState(false);
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
   const [entered, setEntered] = useState(false);
-  const [showMonster, setShowMonster] = useState(false);
   const audioRef = useRef(null);
 
   const moveNoButton = () => {
@@ -19,15 +18,6 @@ export default function App() {
       audioRef.current.volume = 0.6;
       audioRef.current.play().catch(() => {});
     }
-  };
-
-  const handleYes = () => {
-    setAccepted(true);
-    setShowMonster(true);
-
-    setTimeout(() => {
-      setShowMonster(false);
-    }, 2000);
   };
 
   return (
@@ -62,23 +52,12 @@ export default function App() {
             justifyContent: "center",
             alignItems: "center",
             color: "#ff2e2e",
-            position: "relative",
+            position: "relative", // required for snow layer
             overflow: "hidden",
           }}
         >
           {/* Snow Layer */}
           <div className="snow"></div>
-
-          {/* Demogorgon Effect */}
-          {showMonster && (
-            <div className="monsterOverlay">
-              <img
-                src="/demogorgon.png"
-                alt="Demogorgon"
-                className="monster"
-              />
-            </div>
-          )}
 
           <h1>
             {accepted
@@ -89,7 +68,7 @@ export default function App() {
           {!accepted ? (
             <div style={{ marginTop: "30px", display: "flex", gap: "20px" }}>
               <button
-                onClick={handleYes}
+                onClick={() => setAccepted(true)}
                 style={{
                   padding: "10px 20px",
                   background: "darkred",
@@ -124,6 +103,7 @@ export default function App() {
             </p>
           )}
 
+          {/* Snow CSS */}
           <style>{`
             .snow {
               position: absolute;
@@ -145,33 +125,6 @@ export default function App() {
             @keyframes snowMove {
               from { transform: translateY(-250px); }
               to { transform: translateY(250px); }
-            }
-
-            .monsterOverlay {
-              position: absolute;
-              width: 100%;
-              height: 100%;
-              background: rgba(255, 0, 0, 0.3);
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              animation: flash 0.2s alternate 5;
-              z-index: 10;
-            }
-
-            .monster {
-              width: 300px;
-              animation: zoomIn 0.4s ease-out forwards;
-            }
-
-            @keyframes zoomIn {
-              from { transform: scale(0.3); opacity: 0; }
-              to { transform: scale(1); opacity: 1; }
-            }
-
-            @keyframes flash {
-              from { background: rgba(255, 0, 0, 0.6); }
-              to { background: rgba(0, 0, 0, 0.6); }
             }
           `}</style>
         </div>
