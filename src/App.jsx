@@ -29,6 +29,7 @@ useEffect(() => {
   
 
   return (
+    </>
     <audio ref={audioRef} src="/stranger-things.mp3" loop />
     <div className="container">
       <div className="flicker-overlay"></div>
@@ -142,5 +143,6 @@ useEffect(() => {
         }
       `}</style>
     </div>
+  </>
   );
 }
