@@ -4,7 +4,7 @@ export default function App() {
   const [accepted, setAccepted] = useState(false);
   const [noPosition, setNoPosition] = useState({ x: 0, y: 0 });
   const [entered, setEntered] = useState(false);
-  const audioRef = useRef(null); // DECLARED ONLY ONCE
+  const audioRef = useRef(null);
 
   const moveNoButton = () => {
     const randomX = Math.floor(Math.random() * 300 - 150);
@@ -12,25 +12,8 @@ export default function App() {
     setNoPosition({ x: randomX, y: randomY });
   };
 
-  useEffect(() => {
-    const startMusic = () => {
-      if (audioRef.current) {
-        audioRef.current.volume = 0.5;
-        audioRef.current.play().catch(() => {});
-      }
-      document.removeEventListener("click", startMusic);
-    };
-
-    document.addEventListener("click", startMusic);
-
-    return () => {
-      document.removeEventListener("click", startMusic);
-    };
-  }, []);
-
   const handleEnter = () => {
     setEntered(true);
-
     if (audioRef.current) {
       audioRef.current.volume = 0.6;
       audioRef.current.play().catch(() => {});
@@ -39,38 +22,69 @@ export default function App() {
 
   return (
     <>
-      <audio
-        ref={audioRef}
-        src="/stranger-things.mp3"
-        loop
-        preload="auto"
-      />
+      <audio ref={audioRef} src="/stranger-things.mp3" loop />
 
       {!entered ? (
-        <div className="enter-screen" onClick={handleEnter}>
-          <h1 className="enter-text">ENTER THE UPSIDE DOWN</h1>
-          <p className="enter-sub">Click to begin</p>
+        <div
+          style={{
+            height: "100vh",
+            background: "black",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            cursor: "pointer",
+            color: "red",
+          }}
+          onClick={handleEnter}
+        >
+          <h1>ENTER THE UPSIDE DOWN</h1>
+          <p>Click to begin</p>
         </div>
       ) : (
-        <div className="container">
-          <div className="flicker-overlay"></div>
-
-          <h1 className="title">
+        <div
+          style={{
+            height: "100vh",
+            background:
+              "radial-gradient(circle at center, #2b0000 0%, #000000 70%)",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            color: "#ff2e2e",
+          }}
+        >
+          <h1>
             {accepted
               ? "You Escaped the Upside Down ❤️"
               : "Will You Be My Valentine?"}
           </h1>
 
           {!accepted ? (
-            <div className="buttons">
-              <button className="yes" onClick={() => setAccepted(true)}>
+            <div style={{ marginTop: "30px", display: "flex", gap: "20px" }}>
+              <button
+                onClick={() => setAccepted(true)}
+                style={{
+                  padding: "10px 20px",
+                  background: "darkred",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "8px",
+                  cursor: "pointer",
+                }}
+              >
                 Yes ❤️
               </button>
 
               <button
-                className="no"
                 onMouseEnter={moveNoButton}
                 style={{
+                  padding: "10px 20px",
+                  background: "black",
+                  color: "red",
+                  border: "1px solid red",
+                  borderRadius: "8px",
+                  cursor: "pointer",
                   transform: `translate(${noPosition.x}px, ${noPosition.y}px)`
                 }}
               >
@@ -78,115 +92,10 @@ export default function App() {
               </button>
             </div>
           ) : (
-            <p className="message">
+            <p style={{ marginTop: "20px" }}>
               Looks like we’re binge-watching forever together in Hawkins.
             </p>
           )}
-
-          <style>{`
-            body {
-              margin: 0;
-              background: radial-gradient(circle at center, #2b0000 0%, #000000 70%);
-              font-family: 'Courier New', monospace;
-              color: #ff2e2e;
-              overflow: hidden;
-            }
-
-            .enter-screen {
-              height: 100vh;
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
-              background: black;
-              cursor: pointer;
-              text-align: center;
-            }
-
-            .enter-text {
-              font-size: 2.5rem;
-              color: #ff0000;
-              text-shadow: 0 0 20px red;
-            }
-
-            .enter-sub {
-              color: #ff4d4d;
-              margin-top: 10px;
-            }
-
-            .container {
-              height: 100vh;
-              display: flex;
-              flex-direction: column;
-              justify-content: center;
-              align-items: center;
-              text-align: center;
-              position: relative;
-            }
-
-            .title {
-              font-size: 3rem;
-              text-shadow: 0 0 10px red, 0 0 20px darkred;
-              animation: glow 2s infinite alternate;
-            }
-
-            @keyframes glow {
-              from { text-shadow: 0 0 5px #ff0000; }
-              to { text-shadow: 0 0 20px #ff4d4d; }
-            }
-
-            .buttons {
-              margin-top: 40px;
-              display: flex;
-              gap: 30px;
-            }
-
-            button {
-              padding: 12px 28px;
-              font-size: 1.2rem;
-              border: none;
-              cursor: pointer;
-              border-radius: 12px;
-              transition: 0.3s ease;
-            }
-
-            .yes {
-              background: #8b0000;
-              color: white;
-              box-shadow: 0 0 15px red;
-            }
-
-            .yes:hover {
-              background: #b30000;
-            }
-
-            .no {
-              background: #111;
-              color: #ff4d4d;
-              position: relative;
-            }
-
-            .message {
-              margin-top: 30px;
-              font-size: 1.4rem;
-              color: #ff8080;
-            }
-
-            .flicker-overlay {
-              position: absolute;
-              width: 100%;
-              height: 100%;
-              background: rgba(255, 0, 0, 0.05);
-              animation: flicker 0.15s infinite;
-              pointer-events: none;
-            }
-
-            @keyframes flicker {
-              0% { opacity: 0.05; }
-              50% { opacity: 0.1; }
-              100% { opacity: 0.05; }
-            }
-          `}</style>
         </div>
       )}
     </>
