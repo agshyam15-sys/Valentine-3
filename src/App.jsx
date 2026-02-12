@@ -80,7 +80,7 @@ export default function App() {
           </h1>
 
           {!accepted ? (
-            <div style={{ marginTop: "30px", display: "flex", gap: "20px" }}>
+            <div style={{ marginTop: "30px", display: "flex", gap: "20px", flexDirection: "row" }}>
               <button
                 onClick={handleYes}
                 style={{
@@ -145,7 +145,7 @@ export default function App() {
               width: 100%;
               height: 100%;
               background: radial-gradient(circle, rgba(255,0,0,0.6) 0%, black 70%);
-              animation: flashEffect 0.3s linear infinite;
+              animation: flashEffect 0.3s linear 1;
               pointer-events: none;
               z-index: 5;
             }
@@ -157,7 +157,7 @@ export default function App() {
             }
 
             .shake {
-              animation: screenShake 0.2s linear infinite;
+              animation: screenShake 0.2s linear 1;
             }
 
             @keyframes screenShake {
