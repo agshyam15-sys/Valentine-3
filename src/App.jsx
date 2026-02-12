@@ -11,7 +11,6 @@ export default function App() {
     setNoPosition({ x: randomX, y: randomY });
   };
   
-<audio ref={audioRef} src="/stranger-things.mp3" loop />
 
  const audioRef = useRef(null);
 
