@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 export default function App() {
   const [accepted, setAccepted] = useState(false);
@@ -10,26 +10,23 @@ export default function App() {
     const randomY = Math.floor(Math.random() * 300 - 150);
     setNoPosition({ x: randomX, y: randomY });
   };
+  
+<audio ref={audioRef} src="/stranger-things.mp3" loop />
 
-  useEffect(() => {
-    const startAudio = () => {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      const ctx = new AudioContext();
-      const oscillator = ctx.createOscillator();
-      const gainNode = ctx.createGain();
+ const audioRef = useRef(null);
 
-      oscillator.type = "sawtooth";
-      oscillator.frequency.setValueAtTime(55, ctx.currentTime);
-      oscillator.connect(gainNode);
-      gainNode.connect(ctx.destination);
-      gainNode.gain.setValueAtTime(0.02, ctx.currentTime);
-      oscillator.start();
+useEffect(() => {
+  const startMusic = () => {
+    if (audioRef.current) {
+      audioRef.current.volume = 0.5; // optional volume
+      audioRef.current.play().catch(() => {});
+    }
+    document.removeEventListener("click", startMusic);
+  };
 
-      document.removeEventListener("click", startAudio);
-    };
-
-    document.addEventListener("click", startAudio);
-  }, []);
+  document.addEventListener("click", startMusic);
+}, []);
+  
 
   return (
     <div className="container">
