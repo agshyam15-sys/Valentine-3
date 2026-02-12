@@ -26,11 +26,31 @@ useEffect(() => {
 
   document.addEventListener("click", startMusic);
 }, []);
+
+  const [entered, setEntered] = useState(false);
+const audioRef = useRef(null);
+
+const handleEnter = () => {
+  setEntered(true);
+
+  if (audioRef.current) {
+    audioRef.current.volume = 0.6;
+    audioRef.current.play().catch(() => {});
+  }
+};
+
   
 
   return (
     <>
-    <audio ref={audioRef} src="/stranger-things.mp3" loop />
+    <audio ref={audioRef} src="/stranger-things.mp3" loop preload="auto" />
+
+  {!entered ? (
+    <div className="enter-screen" onClick={handleEnter}>
+      <h1 className="enter-text">ENTER THE UPSIDE DOWN</h1>
+      <p className="enter-sub">Click to begin</p>
+    </div>
+  ) : (
     <div className="container">
       <div className="flicker-overlay"></div>
 
