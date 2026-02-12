@@ -27,7 +27,7 @@ useEffect(() => {
 }, []);
 
   const [entered, setEntered] = useState(false);
-const audioRef = useRef(null);
+
 
 const handleEnter = () => {
   setEntered(true);
